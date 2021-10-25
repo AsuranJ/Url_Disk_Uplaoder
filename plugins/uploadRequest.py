@@ -30,7 +30,7 @@ async def upload_handler(bot, update):
         def task():
             a = Multitask(bot, update)
             listTask.append(a)
-            loop = bot.loop.create_task(listTask[counter])
+            loop = bot.loop.create_task(listTask[counter].start)
             Thread(target = loop)
         global counter
         counter += 1
