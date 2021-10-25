@@ -26,12 +26,12 @@ counter = 0
 @Client.on_message(filters.private & filters.regex("^http(s)?:(.*)"))
 async def upload_handler(bot, update):
     if await search_user_in_community(bot, update):
-        async def task():
+        def task():
             a = Multitask(bot, update)
-            await a.start()
+            bot.loop.create_task(a.start())
         global counter
         counter += 1
-        listThread.append(Thread(target = bot.loop.run(task)))
+        listThread.append(Thread(target = task))
         listThread[counter].start()
     return
 
@@ -41,13 +41,13 @@ class Multitask:
         self.bot = bot
         self.update = update
 
-    async def start(self, bot, update):
-        url = update.text
-        downloader = await Downloader.start(update, url, bot)
+    async def start(self):
+        url = self.update.text
+        downloader = await Downloader.start(self.update, url, self.bot)
         filename = downloader.filename
 
         if filename:    #Sending file to user
             msg = downloader.n_msg
-            message_id = update.message_id
-            uploader = Upload(bot, update, msg, filename)
+            message_id = self.update.message_id
+            uploader = Upload(self.bot, self.update, msg, filename)
             await uploader.start()
