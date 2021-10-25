@@ -2,6 +2,9 @@
 
 
 """Importing"""
+# Importing External Packages
+from pyrogram.errors import exceptions
+
 # Importing Common Files
 from helper.importCommon import *
 
@@ -23,8 +26,10 @@ class Upload:
         fileName = 'uploader.py'
 
         async def editMessage(progress_bar, percentage, completed, speed, remaining):
-            self.old_msg = await self.bot.edit_message_text(self.userid, self.old_msg.message_id, f"<b>Now Uploading... !! Have patience... ⌛\n [{progress_bar}]\n📊Percentage: {percentage} %\n✅Completed: {completed} MB\n🚀Speed: {speed} MB/s\n⌚️Remaining Time: {remaining} seconds</b>", parse_mode = 'html')
-            upload_msg = await self.bot.send_document(self.userid , document = self.filename, reply_to_message_id = self.msg_id, progress = uploadingProgress)
+            try:
+                self.old_msg = await self.bot.edit_message_text(self.userid, self.old_msg.message_id, f"<b>Now Uploading... !! Have patience... ⌛\n [{progress_bar}]\n📊Percentage: {percentage} %\n✅Completed: {completed} MB\n🚀Speed: {speed} MB/s\n⌚️Remaining Time: {remaining} seconds</b>", parse_mode = 'html')
+            except exceptions.bad_request_400.MessageNotModified:
+                pass
 
         def uploadingProgress(current, total):
             percentFraction = current/total
@@ -43,8 +48,8 @@ class Upload:
         try:
             global t1
             t1 = time()
-            # await self.bot.send_document(self.userid , document = self.filename, reply_to_message_id = self.msg_id, progress = uploadingProgress)
-            await self.bot.send_document(self.userid , document = self.filename, reply_to_message_id = self.msg_id)
+            await self.bot.send_document(self.userid , document = self.filename, reply_to_message_id = self.msg_id, progress = uploadingProgress)
+            # await self.bot.send_document(self.userid , document = self.filename, reply_to_message_id = self.msg_id)
         except Exception as e:
             await self.bot.delete_messages(self.userid, self.old_msg.message_id)
             await self.bot.send_message(self.userid, BotMessage.unsuccessful_upload, reply_to_message_id  = self.msg_id)
