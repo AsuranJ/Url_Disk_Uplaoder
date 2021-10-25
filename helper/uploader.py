@@ -42,6 +42,7 @@ class Upload:
             if not speed:
                 speed = 0.01
             remaining = int((((total - current)/1024)/1024)/speed)
+            print(f"{current} {total} [{progress_bar}] {percentage} % {completed} MB {speed} MB/s {remaining} seconds")
             self.bot.loop.create_task(editMessage(progress_bar, percentage, completed, speed, remaining))
             sleep(3)
 
