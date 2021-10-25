@@ -18,7 +18,6 @@ fileName = 'uploadRequest'
 
 
 # Some Global Variable
-listThread = ['']
 listTask = ['']
 global counter
 counter = 0
@@ -27,14 +26,10 @@ counter = 0
 @Client.on_message(filters.private & filters.regex("^http(s)?:(.*)"))
 async def upload_handler(bot, update):
     if await search_user_in_community(bot, update):
-        async def task():
-            a = Multitask(bot, update)
-            listTask.append(a)
-            await listTask[counter].start()
         global counter
         counter += 1
-        listThread.append(Thread(target = bot.loop.create_task(task)))
-        listThread[counter].start()
+        listTask.append(Multitask(bot, update))
+        bot.loop.create_task(listTask[counter].start())
     return
 
 class Multitask:
@@ -53,3 +48,4 @@ class Multitask:
             message_id = self.update.message_id
             uploader = Upload(self.bot, self.update, msg, filename)
             await uploader.start()
+    
