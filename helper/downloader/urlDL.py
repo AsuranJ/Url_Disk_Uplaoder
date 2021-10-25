@@ -23,7 +23,7 @@ class URLDL:
         self.process_msg_id = process_msg.message_id
         self.bot = bot
         self.url = url
-        self.Downloadfolder = f'{Config.DOWNLOAD_LOCATION}{str(uuid4)}'
+        self.Downloadfolder = f'{Config.DOWNLOAD_LOCATION}{str(uuid4())}'
         print(self.Downloadfolder)
         makedirs(self.Downloadfolder)
 
