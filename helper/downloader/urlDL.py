@@ -24,6 +24,7 @@ class URLDL:
         self.bot = bot
         self.url = url
         self.Downloadfolder = f'{Config.DOWNLOAD_LOCATION}{str(uuid4)}'
+        makedirs(self.Downloadfolder)
 
     async def start(self):
 
