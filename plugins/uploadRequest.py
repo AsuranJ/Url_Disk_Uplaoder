@@ -31,7 +31,7 @@ async def upload_handler(bot, update):
             await a.start()
         global counter
         counter += 1
-        listThread.append(Thread(target = bot.loop.create_task(task)))
+        listThread.append(Thread(target = bot.loop.run(task)))
         listThread[counter].start()
     return
 
