@@ -19,8 +19,9 @@ fileName = 'uploadRequest'
 
 # Some Global Variable
 listThread = ['']
+listTask = []
 counter = 0
-
+counterTask = 0
 
 
 @Client.on_message(filters.private & filters.regex("^http(s)?:(.*)"))
@@ -28,7 +29,11 @@ async def upload_handler(bot, update):
     if await search_user_in_community(bot, update):
         def task():
             a = Multitask(bot, update)
-            bot.loop.create_task(a.start())
+            listTask.append(a)
+            loop = bot.loop.create_task(listTask[counterTask])
+            global counterTask
+            counterTask += 1
+            Thread(target = loop)
         global counter
         counter += 1
         listThread.append(Thread(target = task))

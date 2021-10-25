@@ -11,7 +11,9 @@ from helper.importCommon import *
 
 # Importing Inbuilt Packages
 from time import sleep
-from os import remove
+from os import remove, makedirs
+from random import randint
+from uuid import uuid4
 
 
 class URLDL:
@@ -21,6 +23,7 @@ class URLDL:
         self.process_msg_id = process_msg.message_id
         self.bot = bot
         self.url = url
+        self.Downloadfolder = f'{Config.DOWNLOAD_LOCATION}{str(uuid4)}'
 
     async def start(self):
 
@@ -29,7 +32,7 @@ class URLDL:
         if len_file == 'Valid':
             msg = await self.bot.edit_message_text(self.userid, self.process_msg_id, BotMessage.starting_to_download, parse_mode = 'html')
 
-            downObj = SmartDL(self.url, dest = Config.DOWNLOAD_LOCATION)
+            downObj = SmartDL(self.url, dest = self.Downloadfolder)
             downObj.start(blocking = False)
             while not downObj.isFinished():
                 progress_bar = downObj.get_progress_bar().replace('#', '■').replace('-', '□')
@@ -54,7 +57,7 @@ class URLDL:
                     return True
                 else:
                     try:
-                        remove(f'{Config.DOWNLOAD_LOCATION}{filename}')
+                        remove(f'{self.Downloadfolder}{filename}')
                     except Exception as e:
                         await self.bot.send_message(Config.OWNER_ID, line_number(fileName, e))
                         await self.bot.delete_messages(self.userid, msg.id)
