@@ -84,10 +84,12 @@ async def length_of_file(bot, url):
         content_length = int(header.get('content-length'))
         file_length = int(content_length/1048576)     #Getting Length of File
         if content_length > 419430400:  #File`s Size is more than Limit 
-            return 'Valid'
-            # return file_length
+            # return 'Valid'
+            return file_length
         else:   #File`s Size is in the Limit
             return 'Valid'
+    except TypeError:
+        return 'Not Valid'
     except Exception as e:  #File is not Exist in Given URL
         await bot.send_message(Config.OWNER_ID, line_number(fileName, e))
         return 'Not Valid'

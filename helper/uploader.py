@@ -9,18 +9,19 @@ from pyrogram.errors import exceptions
 from helper.importCommon import *
 
 # Importing Inbuilt Packages
-from os import remove
+from shutil import rmtree
 from time import time, sleep
 
 
 class Upload:
 
-    def __init__(self, bot, update, old_msg, filename):
+    def __init__(self, bot, update, old_msg, filename, downloadFolder):
         self.bot = bot
         self.userid = update.chat.id
         self.msg_id = update.message_id
         self.old_msg = old_msg
         self.filename = filename
+        self.downloadFolder = downloadFolder
 
     async def start(self):
         fileName = 'uploader.py'
@@ -56,8 +57,8 @@ class Upload:
             await self.bot.send_message(self.userid, BotMessage.unsuccessful_upload, reply_to_message_id  = self.msg_id)
             await self.bot.send_message(Config.OWNER_ID, line_number(fileName, e))
         else:
-            await self.bot.delete_messages(self.userid, self.msg_id)
+            await self.bot.delete_messages(self.userid, self.old_msg.message_id)
         finally:
             task("No Task")
-            remove(self.filename)
+            rmtree(self.downloadFolder)
 

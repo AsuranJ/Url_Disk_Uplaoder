@@ -10,21 +10,20 @@ from pyrogram.errors import exceptions
 from helper.importCommon import *
 
 # Importing Inbuilt Packages
+from shutil import rmtree
 from time import sleep
-from os import remove, makedirs
-from random import randint
+from os import makedirs
 from uuid import uuid4
 
 
 class URLDL:
 
-    def __init__(self, update, process_msg, bot, url) -> None:
+    def __init__(self, update, process_msg, bot, url):
         self.update = update
         self.process_msg_id = process_msg.message_id
         self.bot = bot
         self.url = url
         self.Downloadfolder = f'{Config.DOWNLOAD_LOCATION}{str(uuid4())}'
-        print(self.Downloadfolder)
         makedirs(self.Downloadfolder)
 
     async def start(self):
@@ -59,7 +58,7 @@ class URLDL:
                     return True
                 else:
                     try:
-                        remove(f'{self.Downloadfolder}{filename}')
+                        rmtree(f'{self.Downloadfolder}')
                     except Exception as e:
                         await self.bot.send_message(Config.OWNER_ID, line_number(fileName, e))
                         await self.bot.delete_messages(self.userid, msg.id)
@@ -70,7 +69,7 @@ class URLDL:
         elif len_file == 'Not Valid':
             await self.bot.edit_message_text(self.userid, self.process_msg_id, BotMessage.unsuccessful_upload, parse_mode = 'html')
         else:
-            await self.bot.edit_message_text(self.userid, self.process_msg_id, f'This filesize is **{len_file}mb**. {BotMessage.file_limit}', parse_mode = 'html')
+            await self.bot.edit_message_text(self.userid, self.process_msg_id, f'<b>This filesize is <i>{len_file}mb</i>. {BotMessage.file_limit}</b>', parse_mode = 'html')
 
         self.filename = None
         return

@@ -5,9 +5,6 @@
 # Importing Common Files
 from helper.importCommon import *
 
-# Importing Inbuilt Packages
-from threading import Thread
-
 # Importing Developer defined Module
 from helper.downloader.downloader import Downloader
 from helper.uploader import *
@@ -45,7 +42,6 @@ class Multitask:
 
         if filename:    #Sending file to user
             msg = downloader.n_msg
-            message_id = self.update.message_id
-            uploader = Upload(self.bot, self.update, msg, filename)
+            uploader = Upload(self.bot, self.update, msg, filename, downloader.downloadFolder)
             await uploader.start()
-    
+
