@@ -26,10 +26,12 @@ counter = 0
 @Client.on_message(filters.private & filters.regex("^http(s)?:(.*)"))
 async def upload_handler(bot, update):
     if await search_user_in_community(bot, update):
-        a = Multitask(bot, update)
+        async def task():
+            a = Multitask(bot, update)
+            await a.start()
         global counter
         counter += 1
-        listThread.append(Thread(target = bot.loop.create_task(a.start)))
+        listThread.append(Thread(target = bot.loop.create_task(task)))
         listThread[counter].start()
     return
 
