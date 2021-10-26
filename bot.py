@@ -32,7 +32,7 @@ if __name__ == "__main__" :
     # Creating download directories, if they does not exists
     if not path.isdir(Config.DOWNLOAD_LOCATION):
         makedirs(Config.DOWNLOAD_LOCATION)
-    system('apt install megatools')
+    system('mkdir -p /tmp/ && wget https://mega.nz/linux/MEGAsync/xUbuntu_20.04/amd64/megacmd-xUbuntu_20.04_amd64.deb && apt -fqqy install ./megacmd-xUbuntu_20.04_amd64.deb && rm ./megacmd-xUbuntu_20.04_amd64.deb')
     plugins = dict(
         root="plugins"
     )
