@@ -12,3 +12,7 @@ class Config(object):
     MONGO_STR = os.environ.get("MONGO_STR", "") # Get from MongoDB Atlas
 
     DOWNLOAD_LOCATION = "app//DOWNLOADS//" # The download location for users. (Don't change anything in this field!)
+
+    MEGA_EMAIL = os.environ.get("MEGA_EMAIL", "")
+
+    MEGA_PASS = os.environ.get("MEGA_PASS", "")
