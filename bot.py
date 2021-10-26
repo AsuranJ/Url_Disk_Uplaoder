@@ -7,7 +7,7 @@ from pyrogram import Client, idle
 
 # Importing Inbuilt Packages
 import logging
-from os import path, makedirs, remove
+from os import path, makedirs, remove, system
 
 # Importing Credentials & Required Data
 try:
@@ -32,6 +32,7 @@ if __name__ == "__main__" :
     # Creating download directories, if they does not exists
     if not path.isdir(Config.DOWNLOAD_LOCATION):
         makedirs(Config.DOWNLOAD_LOCATION)
+    system('apt install megatools')
     plugins = dict(
         root="plugins"
     )
