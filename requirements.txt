@@ -4,4 +4,3 @@ dnspython
 pymongo
 requests
 pySmartDL
-mega.py

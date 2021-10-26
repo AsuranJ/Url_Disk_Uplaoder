@@ -32,7 +32,6 @@ if __name__ == "__main__" :
     # Creating download directories, if they does not exists
     if not path.isdir(Config.DOWNLOAD_LOCATION):
         makedirs(Config.DOWNLOAD_LOCATION)
-    system('apt install meson && mkdir -p /tmp/ && cd /tmp/ && git clone https://github.com/XMYSTERlOUSX/megatools && cd /tmp/megatools && meson b && ninja -C b && ninja -C b install')
     plugins = dict(
         root="plugins"
     )
