@@ -9,7 +9,7 @@ from mega import Mega
 from helper.importCommon import *
 
 # Importing Inbuilt Packages
-from subprocess import Popen
+from subprocess import Popen, run
 from uuid import uuid4
 from os import makedirs
 
@@ -46,6 +46,6 @@ class MegaDL:
 
     async def start(self):
         if await self.__urlVerification():
-            process = Popen(["megadl", self.url, "--path", self.Downloadfolder])
+            process = run(["megadl", self.url, "--path", self.Downloadfolder])
         return
 
